@@ -17,8 +17,13 @@ function initValues() {
 }
 
 function loadLaunches() {
-  // TODO: Once API is ready.
-  // Load launches and sort by flight number.
+  return fetch("/launches")
+    .then((launchesResponse) => launchesResponse.json())
+    .then((fetchedLaunches) => {
+      launches = fetchedLaunches.sort((a, b) => {
+        return a.flightNumber < b.flightNumber;
+      });
+    });
 }
 
 function loadPlanets() {
@@ -32,9 +37,12 @@ function loadPlanets() {
   })
 }
 
-function abortLaunch() {
-  // TODO: Once API is ready.
-  // Delete launch and reload launches.
+function abortLaunch(id) {
+  return fetch(`/launches/${id}`, {
+    method: "delete",
+  })
+    .then(loadLaunches)
+    .then(listUpcoming);
 }
 
 function submitLaunch() {
@@ -42,25 +50,26 @@ function submitLaunch() {
   const launchDate = new Date(document.getElementById("launch-day").value);
   const mission = document.getElementById("mission-name").value;
   const rocket = document.getElementById("rocket-name").value;
-  const flightNumber = launches[launches.length - 1]?.flightNumber + 1 || 1;
-  const customers = ['NASA', "ZTM"];
+  const flightNumber = launches[launches.length - 1].flightNumber + 1;
 
-  launches.push({
-    target,
-    launchDate: launchDate / 1000,
-    mission,
-    rocket,
-    flightNumber,
-    customers,
-    upcoming: true,
-  });
-
-  document.getElementById("launch-success").hidden = false;
-
-  // TODO: Once API is ready.
-  // Submit above data to launch system and reload launches.
+  return fetch("/launches", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      launchDate: Math.floor(launchDate / 1000),
+      flightNumber,
+      mission,
+      rocket,
+      target,
+    })
+  })
+    .then(() => {
+      document.getElementById("launch-success").hidden = false;
+    })
+    .then(loadLaunches);
 }
-
 function listUpcoming() {
   const upcomingList = document.getElementById("upcoming-list");
   upcomingList.innerHTML = `<div class="list-heading">${numberHeading} ${dateHeading} ${missionHeading} ${rocketHeading} ${targetHeading}</div>`;
