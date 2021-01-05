@@ -1,8 +1,7 @@
 import { Router } from "./deps.ts";
 
-import * as planets from "./models/planets.ts";
-import * as launches from "./models/launches.ts";
-import { Launch } from "./models/launches.ts";
+import * as planets from "../models/planets.ts";
+import * as launches from "../models/launches.ts";
 
 const router = new Router();
 
@@ -47,9 +46,6 @@ router.delete("/launches/:id", (ctx) => {
 router.post("/launches", async (ctx) => {
   const body = await ctx.request.body();
   launches.addOne(body.value);
-  // const launch: Launch = await ctx.request.body().value;
-
-  // launches.addOne(launch);
 
   ctx.response.body = { success: true };
   ctx.response.status = 201;

@@ -1,5 +1,5 @@
 // deno-lint-ignore-file
-import { log, join, BufReader, parse, pick } from '../deps.ts';
+import { log, join, BufReader, parse, pick } from '../src/deps.ts';
 
 type Planet = Record<string, string>;
 // the above line does the same thing as this line

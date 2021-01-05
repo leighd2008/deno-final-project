@@ -1,5 +1,5 @@
 // deno-lint-ignore-file
-import { log, flatMap } from "../deps.ts";
+import { log, flatMap } from "../src/deps.ts";
 
 export interface Launch {
   flightNumber: number;
