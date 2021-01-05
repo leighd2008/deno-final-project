@@ -45,9 +45,11 @@ router.delete("/launches/:id", (ctx) => {
 });
 
 router.post("/launches", async (ctx) => {
-  const launch: Launch = await ctx.request.body().value;
+  const body = await ctx.request.body();
+  launches.addOne(body.value);
+  // const launch: Launch = await ctx.request.body().value;
 
-  launches.addOne(launch);
+  // launches.addOne(launch);
 
   ctx.response.body = { success: true };
   ctx.response.status = 201;

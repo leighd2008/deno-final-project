@@ -43,7 +43,7 @@ const TOO_LARGE_SOLAR_MASS = {
   koi_smass: "1.04",
 };
 
-Deno.test("filter only havitable planets", () => {
+Deno.test("filter only habitable planets", () => {
   const filtered = filterHabitablePlanets([
     HABITABLE_PLANET,
     NOT_CONFIRMED,

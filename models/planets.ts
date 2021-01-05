@@ -28,7 +28,7 @@ async function loadPlanetsData() {
   const file = await Deno.open(path);
   const bufReader = new BufReader(file);
   const result = await parse(bufReader, {
-    skipFirstRow: true,
+    header: true,
     comment: "#",
   });
 
